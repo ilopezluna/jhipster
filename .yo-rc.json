@@ -1,0 +1,20 @@
+{
+  "generator-jhipster": {
+    "baseName": "jhipster",
+    "packageName": "com.ilopezluna",
+    "packageFolder": "com/ilopezluna",
+    "authenticationType": "xauth",
+    "hibernateCache": "hazelcast",
+    "clusteredHttpSession": "no",
+    "websocket": "no",
+    "databaseType": "sql",
+    "devDatabaseType": "h2Memory",
+    "prodDatabaseType": "mysql",
+    "searchEngine": "elasticsearch",
+    "useCompass": false,
+    "buildTool": "maven",
+    "frontendBuilder": "grunt",
+    "javaVersion": "8",
+    "rememberMeKey": "50228fe14bdb6ecf3bfb7f906bbb12a76e440a54"
+  }
+}
