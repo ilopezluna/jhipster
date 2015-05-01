@@ -1,0 +1,110 @@
+{
+    "relationships": [],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldNameCapitalized": "Name",
+            "fieldNameUnderscored": "name",
+            "fieldInJavaBeanMethod": "Name",
+            "fieldValidate": true,
+            "fieldValidateRules": [
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 20
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "description",
+            "fieldType": "String",
+            "fieldNameCapitalized": "Description",
+            "fieldNameUnderscored": "description",
+            "fieldInJavaBeanMethod": "Description",
+            "fieldValidate": true,
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 3,
+            "fieldName": "createdAt",
+            "fieldType": "DateTime",
+            "fieldNameCapitalized": "CreatedAt",
+            "fieldNameUnderscored": "created_at",
+            "fieldInJavaBeanMethod": "CreatedAt",
+            "fieldValidate": true,
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 4,
+            "fieldName": "updatedAt",
+            "fieldType": "DateTime",
+            "fieldNameCapitalized": "UpdatedAt",
+            "fieldNameUnderscored": "updated_at",
+            "fieldInJavaBeanMethod": "UpdatedAt",
+            "fieldValidate": false
+        },
+        {
+            "fieldId": 5,
+            "fieldName": "price",
+            "fieldType": "BigDecimal",
+            "fieldNameCapitalized": "Price",
+            "fieldNameUnderscored": "price",
+            "fieldInJavaBeanMethod": "Price",
+            "fieldValidate": true,
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 6,
+            "fieldName": "status",
+            "fieldType": "Integer",
+            "fieldNameCapitalized": "Status",
+            "fieldNameUnderscored": "status",
+            "fieldInJavaBeanMethod": "Status",
+            "fieldValidate": true,
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 7,
+            "fieldName": "latitude",
+            "fieldType": "String",
+            "fieldNameCapitalized": "Latitude",
+            "fieldNameUnderscored": "latitude",
+            "fieldInJavaBeanMethod": "Latitude",
+            "fieldValidate": true,
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 8,
+            "fieldName": "longitude",
+            "fieldType": "String",
+            "fieldNameCapitalized": "Longitude",
+            "fieldNameUnderscored": "longitude",
+            "fieldInJavaBeanMethod": "Longitude",
+            "fieldValidate": true,
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "fieldsContainOwnerManyToMany": false,
+    "fieldsContainOneToMany": false,
+    "fieldsContainLocalDate": false,
+    "fieldsContainCustomTime": true,
+    "fieldsContainBigDecimal": true,
+    "fieldsContainDateTime": true,
+    "fieldsContainDate": false,
+    "changelogDate": "20150501124736",
+    "pagination": "pagination",
+    "validation": true
+}

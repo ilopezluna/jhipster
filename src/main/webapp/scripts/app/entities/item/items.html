@@ -1,0 +1,249 @@
+<div>
+
+    <h2 translate="jhipsterApp.item.home.title">Item</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveItemModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="jhipsterApp.item.home.createLabel">Create a new Item</span>
+                </button>
+            </div>
+            <div class="col-md-8">
+                <form name="searchForm" class="form-inline">
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="searchQuery" id="searchQuery" placeholder="query">
+                    </div>
+                    <button class="btn btn-info" ng-click="search()"><span class="glyphicon glyphicon-search"></span> <span>Search a Item</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveItemModal" tabindex="-1" role="dialog" aria-labelledby="myItemLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="create()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myItemLabel" translate="jhipsterApp.item.home.createOrEditLabel">Create or edit a Item</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id"
+                                   ng-model="item.id" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="jhipsterApp.item.name">Name</label>
+                            <input type="text" class="form-control" name="name"
+                                   ng-model="item.name" required ng-maxlength="20">
+
+                            <div ng-show="editForm.name.$invalid">
+                                <p class="help-block"
+                                   ng-show="editForm.name.$error.required" translate="entity.validation.required">
+                                    This field is required.
+                                </p>
+                                <p class="help-block"
+                                   ng-show="editForm.name.$error.maxlength" translate="entity.validation.maxlength" translate-value-max="20">
+                                    This field cannot be longer than 20 characters.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="jhipsterApp.item.description">Description</label>
+                            <input type="text" class="form-control" name="description"
+                                   ng-model="item.description" required>
+
+                            <div ng-show="editForm.description.$invalid">
+                                <p class="help-block"
+                                   ng-show="editForm.description.$error.required" translate="entity.validation.required">
+                                    This field is required.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="jhipsterApp.item.createdAt">CreatedAt</label>
+                            <input type="datetime-local" class="form-control" name="createdAt"
+                                   ng-model="item.createdAt" ng-model-options="{timezone: 'UTC'}" required>
+
+                            <div ng-show="editForm.createdAt.$invalid">
+                                <p class="help-block"
+                                   ng-show="editForm.createdAt.$error.required" translate="entity.validation.required">
+                                    This field is required.
+                                </p>
+                                <p class="help-block"
+                                   ng-show="editForm.createdAt.$error.datetimelocal" translate="entity.validation.datetimelocal">
+                                    This field should be a date and time.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="jhipsterApp.item.updatedAt">UpdatedAt</label>
+                            <input type="datetime-local" class="form-control" name="updatedAt"
+                                   ng-model="item.updatedAt" ng-model-options="{timezone: 'UTC'}">
+
+                        </div>
+                        <div class="form-group">
+                            <label translate="jhipsterApp.item.price">Price</label>
+                            <input type="number" class="form-control" name="price"
+                                   ng-model="item.price" required>
+
+                            <div ng-show="editForm.price.$invalid">
+                                <p class="help-block"
+                                   ng-show="editForm.price.$error.required" translate="entity.validation.required">
+                                    This field is required.
+                                </p>
+                                <p class="help-block"
+                                   ng-show="editForm.price.$error.number" translate="entity.validation.number">
+                                    This field should be a number.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="jhipsterApp.item.status">Status</label>
+                            <input type="number" class="form-control" name="status"
+                                   ng-model="item.status" required>
+
+                            <div ng-show="editForm.status.$invalid">
+                                <p class="help-block"
+                                   ng-show="editForm.status.$error.required" translate="entity.validation.required">
+                                    This field is required.
+                                </p>
+                                <p class="help-block"
+                                   ng-show="editForm.status.$error.number" translate="entity.validation.number">
+                                    This field should be a number.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="jhipsterApp.item.latitude">Latitude</label>
+                            <input type="text" class="form-control" name="latitude"
+                                   ng-model="item.latitude" required>
+
+                            <div ng-show="editForm.latitude.$invalid">
+                                <p class="help-block"
+                                   ng-show="editForm.latitude.$error.required" translate="entity.validation.required">
+                                    This field is required.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="jhipsterApp.item.longitude">Longitude</label>
+                            <input type="text" class="form-control" name="longitude"
+                                   ng-model="item.longitude" required>
+
+                            <div ng-show="editForm.longitude.$invalid">
+                                <p class="help-block"
+                                   ng-show="editForm.longitude.$error.required" translate="entity.validation.required">
+                                    This field is required.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteItemConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(item.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="jhipsterApp.item.delete.question" translate-values="{id: '{{item.id}}'}">Are you sure you want to delete this Item?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th translate="jhipsterApp.item.name">Name</th>
+                    <th translate="jhipsterApp.item.description">Description</th>
+                    <th translate="jhipsterApp.item.createdAt">CreatedAt</th>
+                    <th translate="jhipsterApp.item.updatedAt">UpdatedAt</th>
+                    <th translate="jhipsterApp.item.price">Price</th>
+                    <th translate="jhipsterApp.item.status">Status</th>
+                    <th translate="jhipsterApp.item.latitude">Latitude</th>
+                    <th translate="jhipsterApp.item.longitude">Longitude</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in items">
+                    <td><a ui-sref="itemDetail({id:item.id})">{{item.id}}</a></td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.description}}</td>
+                    <td>{{item.createdAt}}</td>
+                    <td>{{item.updatedAt}}</td>
+                    <td>{{item.price}}</td>
+                    <td>{{item.status}}</td>
+                    <td>{{item.latitude}}</td>
+                    <td>{{item.longitude}}</td>
+                    <td>
+                        <button type="submit"
+                                ui-sref="itemDetail({id:item.id})"
+                                class="btn btn-info btn-sm">
+                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+                        </button>
+                        <button type="submit"
+                                ng-click="update(item.id)"
+                                class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+                        </button>
+                        <button type="submit"
+                                ng-click="delete(item.id)"
+                                class="btn btn-danger btn-sm">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+{
+    "jhipsterApp": {
+        "item" : {
+            "home": {
+                "title": "Items",
+                "createLabel": "Créer un nouveau Item",
+                "createOrEditLabel": "Créer ou éditer un Item"
+            },
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Item {{ id }} ?"
+            },
+            "detail": {
+                "title": "Item"
+            },
+            "name": "Name",
+            "description": "Description",
+            "createdAt": "CreatedAt",
+            "updatedAt": "UpdatedAt",
+            "price": "Price",
+            "status": "Status",
+            "latitude": "Latitude",
+            "longitude": "Longitude"
+        }
+    }
+}
+
