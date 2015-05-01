@@ -145,3 +145,5 @@ ul#strength {
     width:20px;
 }
 /* end Password strength bar style */
+
+.angular-google-map-container { height: 300px; }
