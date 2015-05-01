@@ -17,6 +17,8 @@ public class ElasticItem {
 
     private String name;
 
+    private String description;
+
     private GeoPoint location;
 
     public Long getId() {
@@ -33,6 +35,14 @@ public class ElasticItem {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public GeoPoint getLocation() {

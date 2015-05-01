@@ -39,6 +39,7 @@ public class ItemService {
         ElasticItem elasticItem = new ElasticItem();
         elasticItem.setId(item.getId());
         elasticItem.setName(item.getName());
+        elasticItem.setDescription(item.getDescription());
 
         try {
             Double latitude = Double.parseDouble(item.getLatitude());
@@ -76,7 +77,7 @@ public class ItemService {
         return itemSearchRepository.search(query);
     }
 
-    public List<ElasticItem> findByGeoLocation(double latitude, double longitude) {
+    public Iterable<ElasticItem> searchByGeoLocation(double latitude, double longitude) {
         CriteriaQuery geoLocationCriteriaQuery = new CriteriaQuery(
                 new Criteria("location").within(new GeoPoint(latitude, longitude), "20km"));
         return elasticsearchTemplate.queryForList(geoLocationCriteriaQuery, ElasticItem.class);

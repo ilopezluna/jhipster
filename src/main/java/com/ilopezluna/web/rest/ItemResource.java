@@ -130,4 +130,17 @@ public class ItemResource {
             .stream(itemService.search(queryString(query)).spliterator(), false)
             .collect(Collectors.toList());
     }
+
+    @RequestMapping(value = "/_search/elastic_items",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public List<ElasticItem> searchByLatLon(
+            @RequestParam(value = "lat" , required = true) Double lat,
+            @RequestParam(value = "lon" , required = true) Double lon  ) {
+        log.debug("REST request to get Item lat: {}, lon: {}", lat, lon);
+        return StreamSupport
+                .stream(itemService.searchByGeoLocation(lat, lon).spliterator(), false)
+                .collect(Collectors.toList());
+    }
 }

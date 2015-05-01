@@ -10,6 +10,7 @@ import static org.hamcrest.Matchers.hasItem;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -62,13 +63,16 @@ public class ItemResourceTest {
 
     private static final Integer DEFAULT_STATUS = 0;
     private static final Integer UPDATED_STATUS = 1;
-    private static final String DEFAULT_LATITUDE = "SAMPLE_TEXT";
+    private static final String DEFAULT_LATITUDE = "41.3947901";
     private static final String UPDATED_LATITUDE = "UPDATED_TEXT";
-    private static final String DEFAULT_LONGITUDE = "SAMPLE_TEXT";
+    private static final String DEFAULT_LONGITUDE = "2.1487679";
     private static final String UPDATED_LONGITUDE = "UPDATED_TEXT";
 
     @Inject
     private ItemService itemService;
+
+    @Inject
+    private ElasticsearchTemplate elasticsearchTemplate;
 
     private MockMvc restItemMockMvc;
 
@@ -355,5 +359,21 @@ public class ItemResourceTest {
         // Validate the database is empty
         List<Item> items = itemService.findAll();
         assertThat(items).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void testSearchByLatLon() throws Exception {
+        // Initialize the database
+        itemService.saveAndFlush(item);
+
+        // Get items by lat lon
+        restItemMockMvc.perform(get("/api/_search/elastic_items").param("lat", "41.3947901").param("lon", "2.1487679"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+                .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+                .andExpect(jsonPath("$.[*].location.lat").value(hasItem(Double.valueOf(DEFAULT_LATITUDE))))
+                .andExpect(jsonPath("$.[*].location.lon").value(hasItem(Double.valueOf(DEFAULT_LONGITUDE))));
     }
 }
