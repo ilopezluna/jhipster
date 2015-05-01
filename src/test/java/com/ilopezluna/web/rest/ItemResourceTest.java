@@ -2,9 +2,10 @@ package com.ilopezluna.web.rest;
 
 import com.ilopezluna.Application;
 import com.ilopezluna.domain.Item;
-import com.ilopezluna.repository.ItemRepository;
+import com.ilopezluna.service.ItemService;
 import com.ilopezluna.repository.search.ItemSearchRepository;
 
+import com.ilopezluna.service.ItemService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -70,7 +71,7 @@ public class ItemResourceTest {
     private static final String UPDATED_LONGITUDE = "UPDATED_TEXT";
 
     @Inject
-    private ItemRepository itemRepository;
+    private ItemService itemService;
 
     @Inject
     private ItemSearchRepository itemSearchRepository;
@@ -83,7 +84,7 @@ public class ItemResourceTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         ItemResource itemResource = new ItemResource();
-        ReflectionTestUtils.setField(itemResource, "itemRepository", itemRepository);
+        ReflectionTestUtils.setField(itemResource, "itemService", itemService);
         ReflectionTestUtils.setField(itemResource, "itemSearchRepository", itemSearchRepository);
         this.restItemMockMvc = MockMvcBuilders.standaloneSetup(itemResource).build();
     }
@@ -104,7 +105,7 @@ public class ItemResourceTest {
     @Test
     @Transactional
     public void createItem() throws Exception {
-        int databaseSizeBeforeCreate = itemRepository.findAll().size();
+        int databaseSizeBeforeCreate = itemService.findAll().size();
 
         // Create the Item
         restItemMockMvc.perform(post("/api/items")
@@ -113,7 +114,7 @@ public class ItemResourceTest {
                 .andExpect(status().isCreated());
 
         // Validate the Item in the database
-        List<Item> items = itemRepository.findAll();
+        List<Item> items = itemService.findAll();
         assertThat(items).hasSize(databaseSizeBeforeCreate + 1);
         Item testItem = items.get(items.size() - 1);
         assertThat(testItem.getName()).isEqualTo(DEFAULT_NAME);
@@ -130,7 +131,7 @@ public class ItemResourceTest {
     @Transactional
     public void checkNameIsRequired() throws Exception {
         // Validate the database is empty
-        assertThat(itemRepository.findAll()).hasSize(0);
+        assertThat(itemService.findAll()).hasSize(0);
         // set the field null
         item.setName(null);
 
@@ -141,7 +142,7 @@ public class ItemResourceTest {
                 .andExpect(status().isBadRequest());
 
         // Validate the database is still empty
-        List<Item> items = itemRepository.findAll();
+        List<Item> items = itemService.findAll();
         assertThat(items).hasSize(0);
     }
 
@@ -149,7 +150,7 @@ public class ItemResourceTest {
     @Transactional
     public void checkDescriptionIsRequired() throws Exception {
         // Validate the database is empty
-        assertThat(itemRepository.findAll()).hasSize(0);
+        assertThat(itemService.findAll()).hasSize(0);
         // set the field null
         item.setDescription(null);
 
@@ -160,7 +161,7 @@ public class ItemResourceTest {
                 .andExpect(status().isBadRequest());
 
         // Validate the database is still empty
-        List<Item> items = itemRepository.findAll();
+        List<Item> items = itemService.findAll();
         assertThat(items).hasSize(0);
     }
 
@@ -168,7 +169,7 @@ public class ItemResourceTest {
     @Transactional
     public void checkCreatedAtIsRequired() throws Exception {
         // Validate the database is empty
-        assertThat(itemRepository.findAll()).hasSize(0);
+        assertThat(itemService.findAll()).hasSize(0);
         // set the field null
         item.setCreatedAt(null);
 
@@ -179,7 +180,7 @@ public class ItemResourceTest {
                 .andExpect(status().isBadRequest());
 
         // Validate the database is still empty
-        List<Item> items = itemRepository.findAll();
+        List<Item> items = itemService.findAll();
         assertThat(items).hasSize(0);
     }
 
@@ -187,7 +188,7 @@ public class ItemResourceTest {
     @Transactional
     public void checkPriceIsRequired() throws Exception {
         // Validate the database is empty
-        assertThat(itemRepository.findAll()).hasSize(0);
+        assertThat(itemService.findAll()).hasSize(0);
         // set the field null
         item.setPrice(null);
 
@@ -198,7 +199,7 @@ public class ItemResourceTest {
                 .andExpect(status().isBadRequest());
 
         // Validate the database is still empty
-        List<Item> items = itemRepository.findAll();
+        List<Item> items = itemService.findAll();
         assertThat(items).hasSize(0);
     }
 
@@ -206,7 +207,7 @@ public class ItemResourceTest {
     @Transactional
     public void checkStatusIsRequired() throws Exception {
         // Validate the database is empty
-        assertThat(itemRepository.findAll()).hasSize(0);
+        assertThat(itemService.findAll()).hasSize(0);
         // set the field null
         item.setStatus(null);
 
@@ -217,7 +218,7 @@ public class ItemResourceTest {
                 .andExpect(status().isBadRequest());
 
         // Validate the database is still empty
-        List<Item> items = itemRepository.findAll();
+        List<Item> items = itemService.findAll();
         assertThat(items).hasSize(0);
     }
 
@@ -225,7 +226,7 @@ public class ItemResourceTest {
     @Transactional
     public void checkLatitudeIsRequired() throws Exception {
         // Validate the database is empty
-        assertThat(itemRepository.findAll()).hasSize(0);
+        assertThat(itemService.findAll()).hasSize(0);
         // set the field null
         item.setLatitude(null);
 
@@ -236,7 +237,7 @@ public class ItemResourceTest {
                 .andExpect(status().isBadRequest());
 
         // Validate the database is still empty
-        List<Item> items = itemRepository.findAll();
+        List<Item> items = itemService.findAll();
         assertThat(items).hasSize(0);
     }
 
@@ -244,7 +245,7 @@ public class ItemResourceTest {
     @Transactional
     public void checkLongitudeIsRequired() throws Exception {
         // Validate the database is empty
-        assertThat(itemRepository.findAll()).hasSize(0);
+        assertThat(itemService.findAll()).hasSize(0);
         // set the field null
         item.setLongitude(null);
 
@@ -255,7 +256,7 @@ public class ItemResourceTest {
                 .andExpect(status().isBadRequest());
 
         // Validate the database is still empty
-        List<Item> items = itemRepository.findAll();
+        List<Item> items = itemService.findAll();
         assertThat(items).hasSize(0);
     }
 
@@ -263,7 +264,7 @@ public class ItemResourceTest {
     @Transactional
     public void getAllItems() throws Exception {
         // Initialize the database
-        itemRepository.saveAndFlush(item);
+        itemService.saveAndFlush(item);
 
         // Get all the items
         restItemMockMvc.perform(get("/api/items"))
@@ -284,7 +285,7 @@ public class ItemResourceTest {
     @Transactional
     public void getItem() throws Exception {
         // Initialize the database
-        itemRepository.saveAndFlush(item);
+        itemService.saveAndFlush(item);
 
         // Get the item
         restItemMockMvc.perform(get("/api/items/{id}", item.getId()))
@@ -313,9 +314,9 @@ public class ItemResourceTest {
     @Transactional
     public void updateItem() throws Exception {
         // Initialize the database
-        itemRepository.saveAndFlush(item);
+        itemService.saveAndFlush(item);
 
-		int databaseSizeBeforeUpdate = itemRepository.findAll().size();
+		int databaseSizeBeforeUpdate = itemService.findAll().size();
 
         // Update the item
         item.setName(UPDATED_NAME);
@@ -332,7 +333,7 @@ public class ItemResourceTest {
                 .andExpect(status().isOk());
 
         // Validate the Item in the database
-        List<Item> items = itemRepository.findAll();
+        List<Item> items = itemService.findAll();
         assertThat(items).hasSize(databaseSizeBeforeUpdate);
         Item testItem = items.get(items.size() - 1);
         assertThat(testItem.getName()).isEqualTo(UPDATED_NAME);
@@ -349,9 +350,9 @@ public class ItemResourceTest {
     @Transactional
     public void deleteItem() throws Exception {
         // Initialize the database
-        itemRepository.saveAndFlush(item);
+        itemService.saveAndFlush(item);
 
-		int databaseSizeBeforeDelete = itemRepository.findAll().size();
+		int databaseSizeBeforeDelete = itemService.findAll().size();
 
         // Get the item
         restItemMockMvc.perform(delete("/api/items/{id}", item.getId())
@@ -359,7 +360,7 @@ public class ItemResourceTest {
                 .andExpect(status().isOk());
 
         // Validate the database is empty
-        List<Item> items = itemRepository.findAll();
+        List<Item> items = itemService.findAll();
         assertThat(items).hasSize(databaseSizeBeforeDelete - 1);
     }
 }

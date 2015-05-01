@@ -2,7 +2,7 @@ package com.ilopezluna.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.ilopezluna.domain.Item;
-import com.ilopezluna.repository.ItemRepository;
+import com.ilopezluna.service.ItemService;
 import com.ilopezluna.repository.search.ItemSearchRepository;
 import com.ilopezluna.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ public class ItemResource {
     private final Logger log = LoggerFactory.getLogger(ItemResource.class);
 
     @Inject
-    private ItemRepository itemRepository;
+    private ItemService itemService;
 
     @Inject
     private ItemSearchRepository itemSearchRepository;
@@ -52,7 +52,7 @@ public class ItemResource {
         if (item.getId() != null) {
             return ResponseEntity.badRequest().header("Failure", "A new item cannot already have an ID").build();
         }
-        itemRepository.save(item);
+        itemService.save(item);
         itemSearchRepository.save(item);
         return ResponseEntity.created(new URI("/api/items/" + item.getId())).build();
     }
@@ -69,7 +69,7 @@ public class ItemResource {
         if (item.getId() == null) {
             return create(item);
         }
-        itemRepository.save(item);
+        itemService.save(item);
         itemSearchRepository.save(item);
         return ResponseEntity.ok().build();
     }
@@ -84,7 +84,7 @@ public class ItemResource {
     public ResponseEntity<List<Item>> getAll(@RequestParam(value = "page" , required = false) Integer offset,
                                   @RequestParam(value = "per_page", required = false) Integer limit)
         throws URISyntaxException {
-        Page<Item> page = itemRepository.findAll(PaginationUtil.generatePageRequest(offset, limit));
+        Page<Item> page = itemService.findAll(PaginationUtil.generatePageRequest(offset, limit));
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/items", offset, limit);
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -98,7 +98,7 @@ public class ItemResource {
     @Timed
     public ResponseEntity<Item> get(@PathVariable Long id) {
         log.debug("REST request to get Item : {}", id);
-        return Optional.ofNullable(itemRepository.findOne(id))
+        return Optional.ofNullable(itemService.findOne(id))
             .map(item -> new ResponseEntity<>(
                 item,
                 HttpStatus.OK))
@@ -114,7 +114,7 @@ public class ItemResource {
     @Timed
     public void delete(@PathVariable Long id) {
         log.debug("REST request to delete Item : {}", id);
-        itemRepository.delete(id);
+        itemService.delete(id);
         itemSearchRepository.delete(id);
     }
 
