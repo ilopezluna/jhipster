@@ -3,7 +3,6 @@ package com.ilopezluna.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.ilopezluna.domain.Item;
 import com.ilopezluna.service.ItemService;
-import com.ilopezluna.repository.search.ItemSearchRepository;
 import com.ilopezluna.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +11,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -23,7 +27,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryString;
 
 /**
  * REST controller for managing Item.
@@ -36,9 +40,6 @@ public class ItemResource {
 
     @Inject
     private ItemService itemService;
-
-    @Inject
-    private ItemSearchRepository itemSearchRepository;
 
     /**
      * POST  /items -> Create a new item.
@@ -53,7 +54,6 @@ public class ItemResource {
             return ResponseEntity.badRequest().header("Failure", "A new item cannot already have an ID").build();
         }
         itemService.save(item);
-        itemSearchRepository.save(item);
         return ResponseEntity.created(new URI("/api/items/" + item.getId())).build();
     }
 
@@ -70,7 +70,6 @@ public class ItemResource {
             return create(item);
         }
         itemService.save(item);
-        itemSearchRepository.save(item);
         return ResponseEntity.ok().build();
     }
 
@@ -115,7 +114,6 @@ public class ItemResource {
     public void delete(@PathVariable Long id) {
         log.debug("REST request to delete Item : {}", id);
         itemService.delete(id);
-        itemSearchRepository.delete(id);
     }
 
     /**
@@ -128,7 +126,7 @@ public class ItemResource {
     @Timed
     public List<Item> search(@PathVariable String query) {
         return StreamSupport
-            .stream(itemSearchRepository.search(queryString(query)).spliterator(), false)
+            .stream(itemService.search(queryString(query)).spliterator(), false)
             .collect(Collectors.toList());
     }
 }

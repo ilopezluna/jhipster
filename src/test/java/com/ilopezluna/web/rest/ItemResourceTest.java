@@ -73,9 +73,6 @@ public class ItemResourceTest {
     @Inject
     private ItemService itemService;
 
-    @Inject
-    private ItemSearchRepository itemSearchRepository;
-
     private MockMvc restItemMockMvc;
 
     private Item item;
@@ -85,7 +82,6 @@ public class ItemResourceTest {
         MockitoAnnotations.initMocks(this);
         ItemResource itemResource = new ItemResource();
         ReflectionTestUtils.setField(itemResource, "itemService", itemService);
-        ReflectionTestUtils.setField(itemResource, "itemSearchRepository", itemSearchRepository);
         this.restItemMockMvc = MockMvcBuilders.standaloneSetup(itemResource).build();
     }
 

@@ -2,6 +2,8 @@ package com.ilopezluna.service;
 
 import com.ilopezluna.domain.Item;
 import com.ilopezluna.repository.ItemRepository;
+import com.ilopezluna.repository.search.ItemSearchRepository;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -21,8 +23,12 @@ public class ItemService {
     @Inject
     private ItemRepository itemRepository;
 
+    @Inject
+    private ItemSearchRepository itemSearchRepository;
+
     public void save(Item item) {
         itemRepository.save(item);
+        itemSearchRepository.save(item);
     }
 
     public List<Item> findAll() {
@@ -39,9 +45,14 @@ public class ItemService {
 
     public void delete(Long id) {
         itemRepository.delete(id);
+        itemSearchRepository.delete(id);
     }
 
     public void saveAndFlush(Item item) {
         itemRepository.saveAndFlush(item);
+    }
+
+    public Iterable<Item> search(QueryBuilder query) {
+        return itemSearchRepository.search(query);
     }
 }
