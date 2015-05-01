@@ -3,9 +3,6 @@ package com.ilopezluna.web.rest;
 import com.ilopezluna.Application;
 import com.ilopezluna.domain.Item;
 import com.ilopezluna.service.ItemService;
-import com.ilopezluna.repository.search.ItemSearchRepository;
-
-import com.ilopezluna.service.ItemService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

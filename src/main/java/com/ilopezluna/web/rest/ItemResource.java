@@ -1,6 +1,7 @@
 package com.ilopezluna.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.ilopezluna.domain.ElasticItem;
 import com.ilopezluna.domain.Item;
 import com.ilopezluna.service.ItemService;
 import com.ilopezluna.web.rest.util.PaginationUtil;
@@ -124,7 +125,7 @@ public class ItemResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<Item> search(@PathVariable String query) {
+    public List<ElasticItem> search(@PathVariable String query) {
         return StreamSupport
             .stream(itemService.search(queryString(query)).spliterator(), false)
             .collect(Collectors.toList());
