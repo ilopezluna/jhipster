@@ -44,6 +44,7 @@
         <maven-sortpom-plugin.version>2.3.0</maven-sortpom-plugin.version>
         <metrics-spark-reporter.version>1.2</metrics-spark-reporter.version>
         <metrics-spring.version>3.0.4</metrics-spring.version>
+        <postgresql.version>9.3-1102-jdbc41</postgresql.version>
         <run.addResources>false</run.addResources>
         <sonar-maven-plugin.version>2.3</sonar-maven-plugin.version>
         <spring-security.version>4.0.0.RELEASE</spring-security.version>
@@ -237,10 +238,6 @@
             <version>${joda-time-hibernate.version}</version>
         </dependency>
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core-java8</artifactId>
             <version>${assertj-core.version}</version>
@@ -269,6 +266,11 @@
                     <groupId>org.eclipse.jetty</groupId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
