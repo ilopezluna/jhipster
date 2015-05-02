@@ -146,4 +146,4 @@ ul#strength {
 }
 /* end Password strength bar style */
 
-.angular-google-map-container { height: 300px; }
+.angular-google-map-container { height: 300px; width: 900px; }
