@@ -28,6 +28,9 @@ module.exports = function (config) {
             'main/webapp/bower_components/angular-local-storage/dist/angular-local-storage.js',
             'main/webapp/bower_components/angular-cache-buster/angular-cache-buster.js',
             'main/webapp/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js',
+            'main/webapp/bower_components/angularjs-geolocation/src/geolocation.js',
+            'main/webapp/bower_components/lodash/dist/lodash.compat.js',
+            'main/webapp/bower_components/angular-google-maps/dist/angular-google-maps.js',
             'main/webapp/bower_components/angular-mocks/angular-mocks.js',
             // endbower
             'main/webapp/scripts/app/app.js',
