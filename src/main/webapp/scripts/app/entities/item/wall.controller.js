@@ -9,49 +9,25 @@ angular.module('jhipsterApp')
 
         $scope.items = [];
         $scope.page = 1;
+
         $scope.loadAll = function() {
             Item.query({page: $scope.page, per_page: 100}, function(result, headers) {
                 $scope.links = ParseLinks.parse(headers('link'));
-                $scope.items = result;
+                for (var i = 0; i < result.length; i++) {
+                    $scope.items.push(result[i]);
+                }
             });
+        };
+        $scope.reset = function() {
+            $scope.page = 1;
+            $scope.items = [];
+            $scope.loadAll();
         };
         $scope.loadPage = function(page) {
             $scope.page = page;
             $scope.loadAll();
         };
         $scope.loadAll();
-
-        $scope.create = function () {
-            Item.update($scope.item,
-                function () {
-                    $scope.loadAll();
-                    $('#saveItemModal').modal('hide');
-                    $scope.clear();
-                });
-        };
-
-        $scope.update = function (id) {
-            Item.get({id: id}, function(result) {
-                $scope.item = result;
-                $('#saveItemModal').modal('show');
-            });
-        };
-
-        $scope.delete = function (id) {
-            Item.get({id: id}, function(result) {
-                $scope.item = result;
-                $('#deleteItemConfirmation').modal('show');
-            });
-        };
-
-        $scope.confirmDelete = function (id) {
-            Item.delete({id: id},
-                function () {
-                    $scope.loadAll();
-                    $('#deleteItemConfirmation').modal('hide');
-                    $scope.clear();
-                });
-        };
 
         $scope.search = function () {
             ItemSearch.query({query: $scope.searchQuery}, function(result) {

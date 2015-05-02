@@ -2,11 +2,6 @@
 
 angular.module('jhipsterApp')
     .controller('ItemController', function ($scope, Item, ItemSearch, ParseLinks, geolocation) {
-        geolocation.getLocation().then( function(data){
-            $scope.coords = {lat:data.coords.latitude, long:data.coords.longitude};
-            $scope.map = { center: { latitude: $scope.coords.lat, longitude: $scope.coords.long }, zoom: 18 };
-        });
-
         $scope.items = [];
         $scope.page = 1;
         $scope.loadAll = function() {
