@@ -1,6 +1,9 @@
 package com.ilopezluna;
 
 import com.ilopezluna.config.Constants;
+import com.ilopezluna.domain.Item;
+import com.ilopezluna.service.ItemService;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -15,9 +18,12 @@ import com.google.common.base.Joiner;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @ComponentScan
 @EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})
@@ -27,6 +33,9 @@ public class Application {
 
     @Inject
     private Environment env;
+
+    @Inject
+    private ItemService itemService;
 
     /**
      * Initializes jhipster.
@@ -38,9 +47,36 @@ public class Application {
     public void initApplication() throws IOException {
         if (env.getActiveProfiles().length == 0) {
             log.warn("No Spring profile configured, running with default configuration");
-        } else {
+        }
+        else if (env.getActiveProfiles().length == 1 && env.getActiveProfiles()[0].equals(Constants.SPRING_PROFILE_DEVELOPMENT)) {
+
+            log.info("Adding initial items");
+            for (int i=0; i < 5; i++) {
+                List<Item> items = new ArrayList<>();
+                for (int u=0; u < 2000; u++) {
+                    Item item = buildItem( (i + 1) * u );
+                    items.add(item);
+                }
+
+                itemService.save(items);
+            }
+            log.info("Done");
+        }
+        else {
             log.info("Running with Spring profile(s) : {}", Arrays.toString(env.getActiveProfiles()));
         }
+    }
+
+    private Item    buildItem(int i) {
+        Item item = new Item();
+        item.setCreatedAt(new DateTime());
+        item.setDescription("Description: " + i);
+        item.setLatitude("41." + i);
+        item.setLongitude("2." + i);
+        item.setName("Name: " + i);
+        item.setPrice(new BigDecimal(i));
+        item.setStatus(1);
+        return item;
     }
 
     /**

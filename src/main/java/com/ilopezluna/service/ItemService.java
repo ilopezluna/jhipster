@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -36,19 +37,7 @@ public class ItemService {
 
     public void save(Item item) {
         itemRepository.save(item);
-        ElasticItem elasticItem = new ElasticItem();
-        elasticItem.setId(item.getId());
-        elasticItem.setName(item.getName());
-        elasticItem.setDescription(item.getDescription());
-
-        try {
-            Double latitude = Double.parseDouble(item.getLatitude());
-            Double longitude = Double.parseDouble(item.getLongitude());
-            elasticItem.setLocation( new GeoPoint(latitude, longitude) );
-        } catch (NumberFormatException ex) {
-            log.error("Invalid latitude or longitude for item: " + item.getId()
-                    + ", latitude: " +  item.getLatitude() + ", longitude: " + item.getLongitude());
-        }
+        ElasticItem elasticItem = getElasticItem(item);
         itemSearchRepository.save(elasticItem);
     }
 
@@ -81,5 +70,32 @@ public class ItemService {
         CriteriaQuery geoLocationCriteriaQuery = new CriteriaQuery(
                 new Criteria("location").within(new GeoPoint(latitude, longitude), "20km"));
         return elasticsearchTemplate.queryForList(geoLocationCriteriaQuery, ElasticItem.class);
+    }
+
+    public void save(List<Item> items) {
+        itemRepository.save(items);
+        List<ElasticItem> elasticItems = new ArrayList<>();
+        for (Item item : items) {
+            ElasticItem elasticItem = getElasticItem(item);
+            elasticItems.add(elasticItem);
+        }
+        itemSearchRepository.save(elasticItems);
+    }
+
+    private ElasticItem getElasticItem(Item item) {
+        ElasticItem elasticItem = new ElasticItem();
+        elasticItem.setId(item.getId());
+        elasticItem.setName(item.getName());
+        elasticItem.setDescription(item.getDescription());
+
+        try {
+            Double latitude = Double.parseDouble(item.getLatitude());
+            Double longitude = Double.parseDouble(item.getLongitude());
+            elasticItem.setLocation( new GeoPoint(latitude, longitude) );
+        } catch (NumberFormatException ex) {
+            log.error("Invalid latitude or longitude for item: " + item.getId()
+                    + ", latitude: " +  item.getLatitude() + ", longitude: " + item.getLongitude());
+        }
+        return elasticItem;
     }
 }

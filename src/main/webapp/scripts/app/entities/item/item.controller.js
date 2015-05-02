@@ -10,7 +10,7 @@ angular.module('jhipsterApp')
         $scope.items = [];
         $scope.page = 1;
         $scope.loadAll = function() {
-            Item.query({page: $scope.page, per_page: 20}, function(result, headers) {
+            Item.query({page: $scope.page, per_page: 100}, function(result, headers) {
                 $scope.links = ParseLinks.parse(headers('link'));
                 $scope.items = result;
             });
