@@ -68,7 +68,7 @@ public class ItemService {
 
     public Iterable<ElasticItem> searchByGeoLocation(double latitude, double longitude) {
         CriteriaQuery geoLocationCriteriaQuery = new CriteriaQuery(
-                new Criteria("location").within(new GeoPoint(latitude, longitude), "20km"));
+                new Criteria("location").within(new GeoPoint(latitude, longitude), "100km"));
         return elasticsearchTemplate.queryForList(geoLocationCriteriaQuery, ElasticItem.class);
     }
 

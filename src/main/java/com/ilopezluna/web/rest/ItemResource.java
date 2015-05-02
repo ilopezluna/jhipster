@@ -131,13 +131,16 @@ public class ItemResource {
             .collect(Collectors.toList());
     }
 
-    @RequestMapping(value = "/_search/elastic_items",
+    @RequestMapping(value = "/_search/items/wall/{query}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<ElasticItem> searchByLatLon(
-            @RequestParam(value = "lat" , required = true) Double lat,
-            @RequestParam(value = "lon" , required = true) Double lon  ) {
+    public List<ElasticItem> searchByLatLon(@PathVariable String query) {
+
+        String[] coords = query.split(",");
+        Double lat = Double.parseDouble( coords[0] );
+        Double lon = Double.parseDouble( coords[1] );
+
         log.debug("REST request to get Item lat: {}, lon: {}", lat, lon);
         return StreamSupport
                 .stream(itemService.searchByGeoLocation(lat, lon).spliterator(), false)
